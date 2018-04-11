@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
@@ -23,6 +24,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('home', ['categories' => \App\Category::all()]);
     }
+
+    public function test()
+    {
+        $data = \App\Product::all();
+        print_r($data);
+    }
+
 }

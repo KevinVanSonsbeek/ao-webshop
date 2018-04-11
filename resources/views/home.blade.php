@@ -13,9 +13,16 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    You are logged in!
-
+                    <ul>
+                    @foreach($categories as $category)
+                        <li>{{ $category->name }}</li>
+                            <ul>
+                            @foreach($category->products as $product)
+                                <li>{{ $product->name }}</li>
+                            @endforeach
+                            </ul>
+                    @endforeach
+                    </ul>
 
                 </div>
             </div>
