@@ -22,3 +22,7 @@ Route::get('/test', 'HomeController@test');
 
 Route::get('/category/{category}', 'CategoryController@display_category');
 Route::get('/product/{id}', 'ProductController@display_product');
+
+Route::get('/cart', 'ShoppingCartController@index');
+Route::get('/cart/add/{item_id}', 'ShoppingCartController@add_item');
+Route::get('/cart/clear', 'ShoppingCartController@clear_cart');

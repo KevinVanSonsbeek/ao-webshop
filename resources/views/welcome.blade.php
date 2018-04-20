@@ -70,13 +70,7 @@
                 <div class="top-right links">
                     @auth
                         <a href="{{ url('/home') }}">Home</a>
-                        @foreach(\App\Category::all() as $category)
-                            <a class="dropdown-item" href="/category/{{$category->name}}">{{ $category->name }}</a>
-                        @endforeach
                     @else
-                        @foreach(\App\Category::all() as $category)
-                            <a class="dropdown-item" href="/category/{{$category->name}}">{{ $category->name }}</a>
-                        @endforeach
                         <a href="{{ route('login') }}">Login</a>
                         <a href="{{ route('register') }}">Register</a>
                     @endauth
