@@ -12,6 +12,7 @@ class ShoppingCartItem
     protected $description;
     protected $quantity;
     protected $item_id;
+    protected $price;
 
     /**
      * ShoppingCartItem constructor.
@@ -28,6 +29,7 @@ class ShoppingCartItem
             $this->description = $item_data->description;
             $this->quantity = 1;
             $this->item_id = $item_id;
+            $this->price = $item_data->price;
         }
     }
 
@@ -36,6 +38,20 @@ class ShoppingCartItem
      */
     public function get_name() {
         return $this->name;
+    }
+
+    /*
+     * Get price
+     */
+    public function get_price() {
+        return $this->price;
+    }
+
+    /*
+     * Get total price
+     */
+    public function get_total_price() {
+        return $this->price * $this->quantity;
     }
 
     /*

@@ -18,7 +18,7 @@
                         <li>{{ $category->name }}</li>
                             <ul>
                             @foreach($category->products as $product)
-                                <li>{{ $product->name }}</li>
+                                <li><a href="/product/{{$product->id}}">{{ $product->name }}</a></li>
                             @endforeach
                             </ul>
                     @endforeach

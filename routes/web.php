@@ -11,18 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/test', 'HomeController@test');
-
 Route::get('/category/{category}', 'CategoryController@display_category');
-Route::get('/product/{id}', 'ProductController@display_product');
+Route::get('/product/{id}', 'ProductController@get_product');
+
+Route::get('/orders', 'OrderController@index');
 
 Route::get('/cart', 'ShoppingCartController@index');
-Route::get('/cart/add/{item_id}', 'ShoppingCartController@add_item');
+Route::post('/cart/add', 'ShoppingCartController@add_item');
+Route::post('/cart/remove', 'ShoppingCartController@remove_item');
+Route::post('/cart/quantity', 'ShoppingCartController@set_quantity');
 Route::get('/cart/clear', 'ShoppingCartController@clear_cart');
