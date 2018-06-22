@@ -19,6 +19,7 @@ Route::get('/category/{category}', 'CategoryController@display_category');
 Route::get('/product/{id}', 'ProductController@get_product');
 
 Route::get('/orders', 'OrderController@index');
+Route::get('/order/{id}', 'OrderController@show_order');
 
 Route::get('/cart', 'ShoppingCartController@index');
 Route::post('/cart/add', 'ShoppingCartController@add_item');

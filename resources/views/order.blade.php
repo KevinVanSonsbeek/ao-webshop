@@ -5,24 +5,26 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Orders</div>
+                    <div class="card-header">Order</div>
                         <ul>
-                        @foreach($orders as $order)
+                        @foreach($order_products as $product)
                             <li class="list-group-item">
-                                <div class="container-flex">
+                                <div class="container">
                                     <div class="row">
                                         <div class="col-sm">
-                                            <p><a href="/order/{{$order->id}}">Order no. {{$order->id}}</a></p>
+                                            <p><a href="/product/{{$product->product()->id}}">{{$product->product()->name}}</a></p>
                                         </div>
                                         <div class="col-sm">
-                                            <p>Description: {{$order->order_description}}</p>
+                                            <p></p>
+                                        </div>
+                                        <div class="col-sm">
+                                            <p></p>
                                         </div>
                                     </div>
                                 </div>
                             </li>
                         @endforeach
                         </ul>
-                    <div class="card-body">
                     </div>
                 </div>
             </div>
