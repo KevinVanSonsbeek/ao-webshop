@@ -47,7 +47,12 @@
                                 @guest
                                     <p class="text-right"><button class="btn btn-disabled" disabled>Log in to order!</button></p>
                                 @else
-                                    <p class="text-right"><button class="btn btn-success">Order</button></p>
+                                <p class="text-right">
+                                    {{ Form::open(array('url' => "/order/add")) }}
+                                    <input type="hidden" name="cart" value="test">
+                                    <input type="submit" value="Order">
+                                    {{ Form::close() }}
+                                </p>
                                 @endguest
                             <hr>
                             <p class="text-right"><a href="/cart/clear" style="color:red;">Clear shopping cart <span class="fa fa-trash-alt"></span></a></p>

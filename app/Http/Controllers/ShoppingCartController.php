@@ -17,8 +17,8 @@ class ShoppingCartController extends Controller
         return view('shoppingcart', ['cart' => Session::get('cart'), 'total' => Self::total_price()]);
     }
 
-    /*
-     * Get all items in cart
+    /**
+     * @return \Illuminate\Session\SessionManager|\Illuminate\Session\Store|mixed|string
      */
     public function get_cart_items() {
         if(session()->has('cart')) {

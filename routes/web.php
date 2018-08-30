@@ -26,3 +26,8 @@ Route::post('/cart/add', 'ShoppingCartController@add_item');
 Route::post('/cart/remove', 'ShoppingCartController@remove_item');
 Route::post('/cart/quantity', 'ShoppingCartController@set_quantity');
 Route::get('/cart/clear', 'ShoppingCartController@clear_cart');
+Route::post('/order/add', 'OrderController@add');
+
+Route::group(['domain' => '{domain}.example.com'], function () {
+    //
+});

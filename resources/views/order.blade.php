@@ -15,10 +15,10 @@
                                             <p><a href="/product/{{$product->product()->id}}">{{$product->product()->name}}</a></p>
                                         </div>
                                         <div class="col-sm">
-                                            <p></p>
+                                            <p>Quanitity: {{$product->quantity}}</p>
                                         </div>
                                         <div class="col-sm">
-                                            <p></p>
+                                            <p>Price: {{$product->quantity * $product->product()->price}} (p.p. {{$product->product()->price}})</p>
                                         </div>
                                     </div>
                                 </div>

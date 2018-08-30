@@ -12,10 +12,7 @@
                                 <div class="container-flex">
                                     <div class="row">
                                         <div class="col-sm">
-                                            <p><a href="/order/{{$order->id}}">Order no. {{$order->id}}</a></p>
-                                        </div>
-                                        <div class="col-sm">
-                                            <p>Description: {{$order->order_description}}</p>
+                                            <p><a href="/order/{{$order->id}}">Order id: {{$order->id}}</a></p>
                                         </div>
                                     </div>
                                 </div>
