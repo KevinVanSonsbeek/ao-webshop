@@ -9,14 +9,7 @@ use App\Http\Helpers;
  * Class ShoppingCart
  * @package App\Http
  */
-class ShoppingCart
-{
-    public $cart;
-
-    public function __construct()
-    {
-        $cart = Session()->get('cart');
-    }
+class ShoppingCart{
 
     /**
      * Check if cart is set
