@@ -21,7 +21,7 @@ class OrderController extends Controller
         return view('orders', ['orders' => $orders]);
     }
 
-    public function show_order($order_id) {
+    public function showOrder($order_id) {
         if(!is_numeric($order_id)) {
             abort(404);
         }

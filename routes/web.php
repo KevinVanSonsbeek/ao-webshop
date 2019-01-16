@@ -15,19 +15,16 @@ Route::get('/', 'HomeController@index');
 
 Auth::routes();
 
-Route::get('/category/{category}', 'CategoryController@display_category');
-Route::get('/product/{id}', 'ProductController@get_product');
+Route::get('/category/{category}', 'CategoryController@displayCategory');
+Route::get('/product/{id}', 'ProductController@getProduct');
 
 Route::get('/orders', 'OrderController@index');
-Route::get('/order/{id}', 'OrderController@show_order');
+Route::get('/order/{id}', 'OrderController@showOrder');
 
 Route::get('/cart', 'ShoppingCartController@index');
-Route::post('/cart/add', 'ShoppingCartController@add_item');
-Route::post('/cart/remove', 'ShoppingCartController@remove_item');
-Route::post('/cart/quantity', 'ShoppingCartController@set_quantity');
-Route::get('/cart/clear', 'ShoppingCartController@clear_cart');
+Route::post('/cart/add', 'ShoppingCartController@addItem');
+Route::post('/cart/remove', 'ShoppingCartController@removeItem');
+Route::post('/cart/quantity', 'ShoppingCartController@setQuantity');
+Route::get('/cart/clear', 'ShoppingCartController@clearCart');
 Route::post('/order/add', 'OrderController@add');
 
-Route::group(['domain' => '{domain}.example.com'], function () {
-    //
-});

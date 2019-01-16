@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function get_product($id) {
+    public function getProduct($id) {
         $product = \App\Product::where('id', $id)->firstOrFail();
         return view('product', ['product' => $product]);
     }
