@@ -23,13 +23,17 @@ class ShoppingCartItem
         if(!is_numeric($item_id)) {
             return;
         } else {
-            $item_data = \App\Product::where('id', $item_id)->firstorfail();
+            $item_data = \App\Product::where('id', $item_id)->first();
 
-            $this->name = $item_data->name;
-            $this->description = $item_data->description;
-            $this->quantity = 1;
-            $this->item_id = $item_id;
-            $this->price = $item_data->price;
+            if($item_data) {
+                $this->name = $item_data->name;
+                $this->description = $item_data->description;
+                $this->quantity = 1;
+                $this->item_id = $item_id;
+                $this->price = $item_data->price;
+            } else {
+                abort(404);
+            }
         }
     }
 

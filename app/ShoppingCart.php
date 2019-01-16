@@ -4,6 +4,7 @@ namespace App;
 
 use Session;
 use App\Http\Helpers;
+use Illuminate\Http\Request;
 
 /**
  * Class ShoppingCart
@@ -11,66 +12,39 @@ use App\Http\Helpers;
  */
 class ShoppingCart{
 
-    /**
-     * Check if cart is set
-     *
-     * @return bool
-     */
-    public static function checkForCart() {
-        if(Session::get('cart')) {
-            return true;
-        } else {
-            return false;
-        }
+    public $items;
+    public $totalPrice;
+    public $request;
+
+    public function __construct(Request $request) {
+        $this->items = $request->session()->get('cart');
+        $this->totalPrice = $this->totalPrice();
+        $this->request = $request;
+        return "test";
     }
 
     /**
-     * Empty shoppingcart
+     * Add item to shoppingcart
      *
+     * @param $item_id
      * @return bool
      */
-    public static function emptyCart() {
-        if(session()->forget('cart')) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    public function addItem($item_id) {
+        $item = new Helpers\ShoppingCartItem($item_id);
 
-    /**
-     * Return total price of all items in shoppingcart
-     *
-     * @return bool|int
-     */
-    public static function totalPrice() {
-        if(Self::checkForCart()) {
-            $total = 0;
-            $items = Self::getCartItems();
-
-            if($items) {
-                foreach ($items as $item) {
-                    $total += $item->get_total_price();
+        if(!empty($this->items)) {
+            foreach($this->items as $cart_item) {
+                if($cart_item->get_item_id() == $item->get_item_id()) {//Item already in cart
+                    $cart_item->set_quantity($cart_item->get_quantity() + 1);
+                    return true;
                 }
-                return $total;
-            } else {
-                return false;
             }
+            array_push($this->items, $item);
         } else {
-            return false;
+            $this->items[0] = $item;
         }
-    }
 
-    /**
-     * Get all items from shoppingcart
-     *
-     * @return bool|\Illuminate\Session\SessionManager|\Illuminate\Session\Store|mixed
-     */
-    public static function getCartItems() {
-        if(Self::checkForCart()) {
-            return session('cart');
-        } else {
-            return false;
-        }
+        return $this->saveCart();
     }
 
     /**
@@ -79,30 +53,32 @@ class ShoppingCart{
      * @param $id
      * @return bool
      */
-    public static function removeItem($id) {
-        $cart = Self::getCartItems();
-        foreach($cart as $cart_item) {
+    public function removeItem($id) {
+        foreach($this->items as $cart_item) {
             if($cart_item->get_item_id() == $id) {
-                unset($cart[array_search($cart_item, $cart)]);
-                Self::saveCart($cart);
-                return true;
+                unset($this->items[array_search($cart_item, $this->items)]);
+                return $this->saveCart();
             }
         }
     }
 
     /**
-     * Save changes to shoppingcart
+     * Return total price of all items in shoppingcart
      *
-     * @param $cart
-     * @return bool
+     * @return bool|int
      */
-    public static function saveCart($cart) {
-        if(Session::put('cart', $cart)) {
-            return true;
+    public function totalPrice() {
+        $total = 0;
+        if($this->items) {
+            foreach($this->items as $item) {
+                $total += $item->get_total_price();
+            }
+            return $total;
         } else {
             return false;
         }
     }
+
 
     /**
      * Set quantity of shoppingcart item
@@ -110,19 +86,15 @@ class ShoppingCart{
      * @param $data
      * @return bool
      */
-    public static function setQuantity($data) {
+    public function setQuantity($data) {
         $item_id = $data['item_id'];
         $quantity = $data['quantity'];
-        $cart = Self::getCartItems();
         $item = new Helpers\ShoppingCartItem($item_id);
 
-        $cart = Session::get('cart');
-
-        foreach($cart as $cart_item) {
-            if($cart_item->get_item_id() == $item_id) {
+        foreach($this->items as $cart_item) {
+            if($cart_item->get_item_id() == $item->get_item_id()) {
                 if($quantity <= 0) {
-                    Self::removeItem($item_id);
-                    return true;
+                    return $this->removeItem($item->get_item_id());
                 } else {
                     $cart_item->set_quantity($quantity);
                     return true;
@@ -133,27 +105,26 @@ class ShoppingCart{
     }
 
     /**
-     * Add item to shoppingcart
+     * Empty shoppingcart
      *
-     * @param $item_id
      * @return bool
      */
-    public static function addItem($item_id) {
-        $item = new Helpers\ShoppingCartItem($item_id);
-        $cart = Self::getCartItems();
-        //Check if cart is empty
-        if(empty($cart)) {
-            $cart[0] = $item;
+    public function emptyCart() {
+        $this->items = array();
+        return $this->saveCart();
+    }
+
+    /**
+     * Save changes to shoppingcart
+     *
+     * @param $cart
+     * @return bool
+     */
+    public function saveCart() {
+        if($this->request->session()->put('cart', $this->items)) {
+            return true;
         } else {
-            //Check if item already exists in cart
-            foreach ($cart as $cart_item) {
-                if($cart_item->get_item_id() == $item->get_item_id()) {
-                    $cart_item->set_quantity($cart_item->get_quantity() + 1);
-                    return true;
-                }
-            }
-            array_push($cart, $item);
+            return false;
         }
-        return Self::saveCart($cart);
     }
 }
