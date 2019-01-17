@@ -20,7 +20,6 @@ class ShoppingCart{
         $this->items = $request->session()->get('cart');
         $this->totalPrice = $this->totalPrice();
         $this->request = $request;
-        return "test";
     }
 
     /**
