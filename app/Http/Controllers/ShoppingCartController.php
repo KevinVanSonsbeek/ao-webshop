@@ -4,19 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
-use App\Http\Helpers;
 use App\ShoppingCart;
-use Session;
 
 class ShoppingCartController extends Controller
 {
+    public $cart;
 
-   /*
-    * Test index
-    */
+    public function __construct(Request $request) {
+        $this->cart = new ShoppingCart($request);
+    }
+
+    /**
+     * Show shoppingCart page
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index (Request $request) {
-        $cart = new ShoppingCart($request);
-        return view('shoppingcart', ['cart' => $cart->items, 'total' => $cart->totalPrice]);
+        return view('shoppingcart', ['cart' => $this->cart->items, 'total' => $this->cart->totalPrice]);
     }
 
     /**
@@ -30,9 +35,7 @@ class ShoppingCartController extends Controller
            'item_id' => 'required|integer'
         ]);
 
-        $cart = new ShoppingCart($request);
-
-        $cart->addItem($data['item_id']);
+        $this->cart->addItem($data['item_id']);
         return Redirect::to('/cart');
     }
 
@@ -47,9 +50,7 @@ class ShoppingCartController extends Controller
             'item_id' => 'required|integer'
         ]);
 
-        $cart = new ShoppingCart($request);
-
-        $cart->removeItem($data['item_id']);
+        $this->cart->removeItem($data['item_id']);
         return Redirect::to('/cart');
     }
 
@@ -65,9 +66,7 @@ class ShoppingCartController extends Controller
            'quantity' => 'required|integer'
         ]);
 
-        $cart = new ShoppingCart($request);
-
-        $cart->setQuantity($data);
+        $this->cart->setQuantity($data);
         return Redirect::to('/cart');
     }
 
@@ -77,8 +76,7 @@ class ShoppingCartController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function clearCart(Request $request) {
-        $cart = new ShoppingCart($request);
-        $cart->emptyCart();
+        $this->cart->emptyCart();
         return Redirect::to('/cart');
     }
 }

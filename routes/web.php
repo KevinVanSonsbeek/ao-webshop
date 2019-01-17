@@ -21,10 +21,15 @@ Route::get('/product/{id}', 'ProductController@getProduct');
 Route::get('/orders', 'OrderController@index');
 Route::get('/order/{id}', 'OrderController@showOrder');
 
-Route::get('/cart', 'ShoppingCartController@index');
-Route::post('/cart/add', 'ShoppingCartController@addItem');
-Route::post('/cart/remove', 'ShoppingCartController@removeItem');
-Route::post('/cart/quantity', 'ShoppingCartController@setQuantity');
-Route::get('/cart/clear', 'ShoppingCartController@clearCart');
+Route::group(['middleware' => 'web'], function () {
+    Route::get('/cart', 'ShoppingCartController@index');
+    Route::post('/cart/add', 'ShoppingCartController@addItem');
+    Route::post('/cart/remove', 'ShoppingCartController@removeItem');
+    Route::post('/cart/quantity', 'ShoppingCartController@setQuantity');
+    Route::get('/cart/clear', 'ShoppingCartController@clearCart');
+});
+
+
+
 Route::post('/order/add', 'OrderController@add');
 
